@@ -58,7 +58,7 @@ const Home = () => {
                 </VStack>
                 {weather && (
                     <View>
-                        <Text style={styles.city}>{weather?.name}</Text>
+                        <Text style={styles.city}>{weather?.name}, {weather?.sys?.country} </Text>
                     </View>
                 )}
                 {weather && (
