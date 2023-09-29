@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, ImageBackground, SafeAreaView } from 'react-native';
+import { View, StyleSheet, ActivityIndicator, ImageBackground, SafeAreaView } from 'react-native';
 import { VStack, Input, Icon, Text, Heading } from 'native-base';
 import { MaterialIcons } from '@expo/vector-icons'; // Removed unnecessary import
 import imag from '../../assets/background-3104413_1280.jpg';
@@ -8,16 +8,21 @@ import axios from 'axios';
 const Home = () => {
     const [city, setCity] = useState('');
     const [weather, setWeather] = useState(null); // Initialize weather as null
+    const [loading, setLoading] = useState(false)
 
     const handleChooseCity = async () => {
         try {
+            setLoading(true)
             const res = await axios.get(
                 `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=760a9f4b6086e7b3fc4a29f14b698f88`
             );
             setWeather(res.data);
         } catch (error) {
             console.log(error);
+            alert("Invalid City")
             setWeather(null);
+        } finally {
+            setLoading(false)
         }
     };
 
@@ -45,16 +50,21 @@ const Home = () => {
                             />
                         }
                         InputRightElement={
-                            <Icon
-                                m={2}
-                                mr={3}
-                                size={10}
-                                onPress={handleChooseCity}
-                                color="green.400"
-                                as={<MaterialIcons name="check-circle" />}
-                            />
+                            loading ? (
+                                <ActivityIndicator size="x-large" color="black" />
+                            ) : (
+                                <Icon
+                                    m={2}
+                                    mr={3}
+                                    size={10}
+                                    onPress={handleChooseCity}
+                                    color="green.400"
+                                    as={<MaterialIcons name="check-circle" />}
+                                />
+                            )
                         }
                     />
+
                 </VStack>
                 {weather && (
                     <View>
@@ -85,7 +95,8 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: 'white',
         textAlign: 'center',
-        fontSize: 20,
+        padding: 25,
+        fontSize: 30,
         marginTop: 25,
     },
     weather: {
@@ -111,6 +122,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         padding: 38,
         fontSize: 40,
+        fontStyle: 'italic',
         shadowColor: 'black',
         shadowOffset: { width: -1, height: 3 },
         shadowOpacity: 0.7,
