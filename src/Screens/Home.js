@@ -1,19 +1,26 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, ImageBackground, SafeAreaView } from 'react-native';
-import { VStack, Input, Icon, Text, Heading } from "native-base";
-import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+import { VStack, Input, Icon, Text, Heading } from 'native-base';
+import { MaterialIcons } from '@expo/vector-icons'; // Removed unnecessary import
 import imag from '../../assets/background-3104413_1280.jpg';
-import axios from "axios"
+import axios from 'axios';
+
 const Home = () => {
     const [city, setCity] = useState('');
-    const handleChoseCity = async () => {
+    const [weather, setWeather] = useState(null); // Initialize weather as null
+
+    const handleChooseCity = async () => {
         try {
-            const res = await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=760a9f4b6086e7b3fc4a29f14b698f88`)
-            console.log(res.data);
+            const res = await axios.get(
+                `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=760a9f4b6086e7b3fc4a29f14b698f88`
+            );
+            setWeather(res.data);
         } catch (error) {
             console.log(error);
+            setWeather(null);
         }
-    }
+    };
+
     return (
         <ImageBackground source={imag} style={styles.image}>
             <SafeAreaView style={{ marginTop: 45 }}>
@@ -42,26 +49,32 @@ const Home = () => {
                                 m={2}
                                 mr={3}
                                 size={10}
-                                onPress={() => handleChoseCity()}
+                                onPress={handleChooseCity}
                                 color="green.400"
                                 as={<MaterialIcons name="check-circle" />}
                             />
                         }
                     />
                 </VStack>
-                <View>
-                    <Text style={styles.city}>Casablanca</Text>
-                </View>
-                <View style={styles.weath}>
-                    <Text style={styles.temp}>nnn</Text>
-                </View>
-                <View style={styles.weather}>
-                    <Text style={styles.temper}>Suuny</Text>
-                </View>
+                {weather && (
+                    <View>
+                        <Text style={styles.city}>{weather?.name}</Text>
+                    </View>
+                )}
+                {weather && (
+                    <View style={styles.weather}>
+                        <Text style={styles.temp}>{Math.floor(weather?.main?.temp - 273.15)} °C</Text>
+                    </View>
+                )}
+                {weather && (
+                    <View style={styles.weather}>
+                        <Text style={styles.temper}>{weather?.weather[0]?.main}</Text>
+                    </View>
+                )}
             </SafeAreaView>
         </ImageBackground>
     );
-}
+};
 
 const styles = StyleSheet.create({
     image: {
@@ -74,9 +87,6 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontSize: 20,
         marginTop: 25,
-    },
-    weath: {
-        alignItems: 'center',
     },
     weather: {
         alignItems: 'center',
@@ -91,8 +101,8 @@ const styles = StyleSheet.create({
         marginTop: 15,
         textShadowRadius: 10,
         overflow: 'hidden',
-        backgroundColor: 'rgba(255, 255, 255,0.2)',
-        textShadowColor: 'rgba(0, 0, 0,0.75)',
+        backgroundColor: 'rgba(255, 255, 255, 0.2)',
+        textShadowColor: 'rgba(0, 0, 0, 0.75)',
         textShadowOffset: { width: -3, height: 3 },
         borderRadius: 30,
     },
@@ -101,12 +111,10 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         padding: 38,
         fontSize: 40,
-        ShadowColor: 'black',
-        ShadowOffset: { width: -1, height: 3 },
+        shadowColor: 'black',
+        shadowOffset: { width: -1, height: 3 },
         shadowOpacity: 0.7,
-
-
-    }
+    },
 });
 
 export default Home;
