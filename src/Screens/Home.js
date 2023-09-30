@@ -81,6 +81,10 @@ const Home = () => {
                         <Text style={styles.temper}>{weather?.weather[0]?.main}</Text>
                     </View>
                 )}
+                <View style={styles.weatherMN}>
+                    <Text style={styles.max}>Min: 12 °C</Text>
+                    <Text style={styles.min}>Max: 14 °C</Text>
+                </View>
             </SafeAreaView>
         </ImageBackground>
     );
@@ -127,6 +131,24 @@ const styles = StyleSheet.create({
         shadowOffset: { width: -1, height: 3 },
         shadowOpacity: 0.7,
     },
+    max: {
+        color: 'white',
+        fontSize: 20,
+        padding: 38,
+        textAlign: 'left',
+
+    },
+    min: {
+        color: 'white',
+        fontSize: 20,
+        padding: 38,
+        textAlign: 'right',
+    },
+    weatherMN: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        paddingHorizontal: 38,
+    }
 });
 
 export default Home;
