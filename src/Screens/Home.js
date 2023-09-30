@@ -67,24 +67,22 @@ const Home = () => {
 
                 </VStack>
                 {weather && (
-                    <View>
-                        <Text style={styles.city}>{weather?.name}, {weather?.sys?.country} </Text>
-                    </View>
+                    <>
+                        <View>
+                            <Text style={styles.city}>{weather?.name}, {weather?.sys?.country} </Text>
+                        </View>
+                        <View style={styles.weather}>
+                            <Text style={styles.temp}>{Math.floor(weather?.main?.temp - 273.15)} °C</Text>
+                        </View>
+                        <View style={styles.weather}>
+                            <Text style={styles.temper}>{weather?.weather[0]?.main}</Text>
+                        </View>
+                        <View style={styles.weatherMN}>
+                            <Text style={styles.min}>Min: {Math.floor(weather?.main?.temp_min - 273.15)} °C</Text>
+                            <Text style={styles.max}>Max: {Math.floor(weather?.main?.temp_max - 273.15)} °C</Text>
+                        </View>
+                    </>
                 )}
-                {weather && (
-                    <View style={styles.weather}>
-                        <Text style={styles.temp}>{Math.floor(weather?.main?.temp - 273.15)} °C</Text>
-                    </View>
-                )}
-                {weather && (
-                    <View style={styles.weather}>
-                        <Text style={styles.temper}>{weather?.weather[0]?.main}</Text>
-                    </View>
-                )}
-                <View style={styles.weatherMN}>
-                    <Text style={styles.max}>Min: 12 °C</Text>
-                    <Text style={styles.min}>Max: 14 °C</Text>
-                </View>
             </SafeAreaView>
         </ImageBackground>
     );
@@ -132,14 +130,15 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.7,
     },
     max: {
-        color: 'white',
+        color: '#ff9e00',
         fontSize: 20,
         padding: 38,
         textAlign: 'left',
 
+
     },
     min: {
-        color: 'white',
+        color: 'blue',
         fontSize: 20,
         padding: 38,
         textAlign: 'right',
