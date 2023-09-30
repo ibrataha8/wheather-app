@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, ActivityIndicator, ImageBackground, SafeAreaView } from 'react-native';
 import { VStack, Input, Icon, Text, Heading } from 'native-base';
-import { MaterialIcons } from '@expo/vector-icons'; // Removed unnecessary import
+import { MaterialIcons } from '@expo/vector-icons'; 
 import imag from '../../assets/background-3104413_1280.jpg';
 import axios from 'axios';
 
 const Home = () => {
     const [city, setCity] = useState('');
-    const [weather, setWeather] = useState(null); // Initialize weather as null
+    const [weather, setWeather] = useState(null); 
     const [loading, setLoading] = useState(false)
 
     const handleChooseCity = async () => {
@@ -27,38 +27,35 @@ const Home = () => {
     };
 
     return (
+
         <ImageBackground source={imag} style={styles.image}>
             <SafeAreaView style={{ marginTop: 45 }}>
                 <VStack space={5} alignItems="center">
                     <Heading size="md">Weather App</Heading>
                     <Input
-                        placeholder="Search City"
-                        width="100%"
-                        borderRadius={4}
-                        py={3}
+                        placeholder="Enter City"
+                        width="80%"
+                        borderRadius={10}
                         color="white"
-                        px={1}
+                        px={3}
                         fontSize={20}
                         onChangeText={(text) => setCity(text)}
                         InputLeftElement={
                             <Icon
-                                m={2}
-                                ml={3}
-                                size={8}
+                                size={6}
+                                ml={2}
                                 color="gray.400"
                                 as={<MaterialIcons name="search" />}
                             />
                         }
                         InputRightElement={
                             loading ? (
-                                <ActivityIndicator size="x-large" color="black" />
+                                <ActivityIndicator size="large" color="green" />
                             ) : (
                                 <Icon
-                                    m={2}
-                                    mr={3}
-                                    size={10}
-                                    onPress={handleChooseCity}
-                                    color="green.400"
+                                    size={8}
+                                    onPress={() => handleChooseCity(city)}
+                                    color="blue.400"
                                     as={<MaterialIcons name="check-circle" />}
                                 />
                             )
@@ -78,8 +75,8 @@ const Home = () => {
                             <Text style={styles.temper}>{weather?.weather[0]?.main}</Text>
                         </View>
                         <View style={styles.weatherMN}>
-                            <Text style={styles.min}>Min: {Math.floor(weather?.main?.temp_min - 273.15)} °C</Text>
-                            <Text style={styles.max}>Max: {Math.floor(weather?.main?.temp_max - 273.15)} °C</Text>
+                            <Text style={styles.min}>Min : {Math.floor(weather?.main?.temp_min - 273.15)} °C</Text>
+                            <Text style={styles.max}>Max : {Math.floor(weather?.main?.temp_max - 273.15)} °C</Text>
                         </View>
                     </>
                 )}
@@ -130,17 +127,17 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.7,
     },
     max: {
-        color: '#ff9e00',
-        fontSize: 20,
-        padding: 38,
+        color: 'red',
+        fontSize: 25,
+        padding: 22,
         textAlign: 'left',
 
 
     },
     min: {
-        color: 'blue',
-        fontSize: 20,
-        padding: 38,
+        color: "blue",
+        fontSize: 25,
+        padding: 22,
         textAlign: 'right',
     },
     weatherMN: {
